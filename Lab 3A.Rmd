@@ -1,0 +1,149 @@
+---
+title: "Lab 3A"
+author: "Caroline Martin"
+date: "9/7/2020"
+output: html_document
+---
+```{r}
+library(lubridate)
+```
+
+```{r}
+download.file(url="https://ndownloader.figshare.com/files/2292169",
+destfile = "Data/portal_data_joined.csv")
+```
+
+```{r}
+surveys <- read.csv("Data/portal_data_joined.csv") 
+```
+
+```{r}
+head(surveys)
+```
+```{r}
+str(surveys)
+```
+
+```{r}
+### Size
+dim(surveys)
+nrow(surveys)
+ncol(surveys)
+```
+
+```{r}
+
+### Content
+head(surveys)
+tail(surveys)
+```
+
+```{r}
+### Names
+names(surveys)
+rownames(surveys)
+```
+
+```{r}
+### Summary
+str(surveys)
+summary(surveys)
+```
+```{r}
+### Challenge
+## The class is a data frame
+## The number of rows is 34786 and number of columns is 13
+## There are 48 species
+
+```
+
+```{r}
+surveys_200 <- surveys[200,]
+n_rows <- nrow(surveys)
+surveys_last <- surveys[n_rows, ]
+surveys_middle <- surveys[n_rows / 2, ]
+surveys_head <- surveys[-(7:n_rows), ]
+```
+
+```{r}
+##Factors
+
+sex <- factor(c("male", "female", "female", "male"))
+levels(sex)
+nlevels(sex)
+sex
+sex <- factor(sex, levels = c("male", "female"))
+sex
+```
+
+```{r}
+## Converting Factors
+as.character(sex)
+
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)  #Wrong!!! DO NOT USE
+as.numeric(as.character(year_fct)) #Technically correct
+as.numeric(levels(year_fct))[year_fct] #Recommended way! 
+```
+
+```{r}
+##Renaming Factors
+
+plot(as.factor(surveys$sex))
+sex <- factor(surveys$sex)
+head(sex)
+levels(sex)
+levels(sex)[1] <- "undetermined"
+levels(sex)
+head(sex)
+
+## Challenge
+levels(sex)[2:3] <- c("female", "male")
+sex <- factor(sex, levels = c("female", "male", "undetermined"))
+plot(sex)
+
+```
+
+```{r}
+##Using stringasfactor = FALSE
+
+surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = TRUE)
+str(surveys) #this gives full data.frame of the file
+surveys <- read.csv("data/portal_data_joined.csv", stringsAsFactors = FALSE)
+str(surveys) # this gives genus, species, etc in a much more organized manner, explaining chr, int, etc. instead of int, factor, and a lot of numbers
+
+##Challenge
+animal_data <- data.frame(
+          animal = c("dog", "cat", "sea cucumber", "sea urchin"),
+          feel = c("furry", "fluffy", "squishy", "spiny"),
+          weight = c(45, 8, 1.1, 0.8)
+          )
+
+country_climate <- data.frame(
+       country = c("Canada", "Panama", "South Africa", "Australia"), #factor
+       climate = c("cold", "hot", "temperate", "hot/temperate"), #factor
+       temperature = c(10, 30, 18, "15"), #factor
+       northern_hemisphere = c(TRUE, TRUE, FALSE, "FALSE"), #factor
+       has_kangaroo = c(FALSE, FALSE, FALSE, 1) #numeric
+       )
+## stringAsFactors = FALSE would have made these vectors instead of factors
+## remove the quotes from the FALSE in northern_hemisphere and the "15" from temperature and replacing the 1 with TRUE in has_kangaroo
+
+```
+
+```{r}
+##Formatting Dates
+
+str(surveys)
+my_date <- ymd("2015-01-01")
+str(my_date)
+my_date <- ymd(paste("2015", "1", "1", sep = "-")) 
+str(my_date)
+paste(surveys$year, surveys$month, surveys$day, sep = "-")
+ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+surveys$date <- ymd(paste(surveys$year, surveys$month, surveys$day, sep = "-"))
+str(surveys)
+summary(surveys$date)
+missing_dates <- surveys[is.na(surveys$date), c("year", "month", "day")]
+head(missing_dates)
+```
