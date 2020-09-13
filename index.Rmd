@@ -8,5 +8,9 @@ bibliography: Data/references.bib
 * [LAB1](LAB1_CarolineMartin.html)
 Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
 
+* [LAB3A](Lab-3A.html)
+
+* [LAB3B](Lab-3B.html) 
+
 # REFERENCES
 
