@@ -1,0 +1,116 @@
+---
+title: "Lab 4 - Data Wrangling"
+author: "Caroline Martin"
+date: "9/14/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+report_03_11_2020 <-   read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-11-2020.csv")) %>%
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+```
+
+```{r}
+str(report_03_11_2020)
+```
+
+```{r}
+view(report_03_11_2020)
+```
+
+```{r}
+##Interactive Data Tables
+library(DT)
+datatable(report_03_11_2020)
+```
+
+```{r}
+##Exercise 1 
+report_03_13_2020 <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/03-13-2020.csv")) %>% 
+  rename(Country_Region = "Country/Region", Province_State = "Province/State")
+
+report_09_13_2020 <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/09-13-2020.csv"))
+```
+
+```{r}
+report_03_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>% 
+arrange(desc(min_deaths)) %>% 
+slice(1:10)
+
+report_09_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>% 
+arrange(desc(min_deaths)) %>% 
+  slice(1:10)
+```
+
+```{r}
+library(tidyverse)
+library(hexbin)
+```
+
+```{r}
+##ggplot2
+ggplot(data = report_03_13_2020)
+```
+```{r}
+ggplot(data = report_03_13_2020, mapping = aes(x = Confirmed, y = Deaths))
+```
+
+```{r}
+###Exercise 2: Top 10 Country Scatter Plots 
+top10d <- report_03_13_2020 %>% 
+  group_by(Country_Region) %>%  
+  summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>% 
+arrange(desc(min_deaths)) %>% 
+slice(1:10)
+
+ggplot(data = top10d, mapping = aes(x = Country_Region, y = Deaths)) + geom_point()
+```
+
+```{r}
+top10d <- report_09_13_2020 %>% 
+  group_by(Country_Region) %>% 
+  summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>% 
+arrange(desc(min_deaths)) %>% 
+  slice(1:10)
+
+ggplot(data = top10d, mapping = aes(x = Country_Region, y = Deaths)) + geom_point()
+
+```
+
+```{r}
+### Exercise 2: Top 10 States Bar Graphs
+
+top10d <- report_03_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>% 
+arrange(desc(min_deaths)) %>% 
+slice(1:10)
+
+ggplot(data = top10d, mapping = aes(x = Deaths, y = Province_State)) +
+    geom_bar(stat = "identity")
+```
+
+```{r}
+
+top10d <- report_09_13_2020 %>% 
+  filter(Country_Region == "US") %>% 
+  group_by(Province_State) %>% 
+  summarize(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>% 
+arrange(desc(min_deaths)) %>% 
+  slice(1:10)
+
+ggplot(data = top10d, mapping = aes(x = Deaths, y= Province_State)) +
+    geom_bar(stat = "identity")
+
+```
