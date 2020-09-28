@@ -3,6 +3,7 @@ title: "Lab 3A"
 author: "Caroline Martin"
 date: "9/7/2020"
 output: html_document
+bibliography: Data/references.bib
 ---
 ```{r}
 library(tidyverse)
@@ -148,3 +149,5 @@ summary(surveys$date)
 missing_dates <- surveys[is.na(surveys$date), c("year", "month", "day")]
 head(missing_dates)
 ```
+
+##REFERENCES

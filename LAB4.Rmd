@@ -3,6 +3,7 @@ title: "Lab 4 - Data Wrangling"
 author: "Caroline Martin"
 date: "9/14/2020"
 output: html_document
+bibliography: Data/references.bib
 ---
 
 ```{r}
@@ -114,3 +115,5 @@ ggplot(data = top10d, mapping = aes(x = Deaths, y= Province_State)) +
     geom_bar(stat = "identity")
 
 ```
+
+## REFERENCES
