@@ -10,7 +10,7 @@ library(tidyverse)
 ```
 
 ```{r}
-surveys <- read_csv("data/portal_data_joined.csv")
+surveys <- read_csv("Data/portal_data_joined.csv")
 ```
 
 ```{r}
