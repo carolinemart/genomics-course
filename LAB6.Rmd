@@ -3,7 +3,7 @@ title: "LAB6"
 author: "Caroline Martin"
 date: "9/28/2020"
 output: html_document
-bibliography: references.bib
+bibliography: Data/references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -328,3 +328,5 @@ ggplotly(
   theme(axis.text = element_blank())
 )
 ```
+
+# REFERENCES
