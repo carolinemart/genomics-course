@@ -70,11 +70,11 @@ dev.off()
 ```
 
 ```{r}
-![US COVID-19 Deaths](images/time_series_example_plot.png) 
+#![US COVID-19 Deaths](images/time_series_example_plot.png)
 ```
 
 ```{r}
-<img src="images/time_series_example_plot.png" alt="US COVID-19 Deaths" style="width: 600px;"/>
+#<img src="images/time_series_example_plot.png" alt="US COVID-19 Deaths" style="width: 600px;"/>
 ```
 
 ```{r}
@@ -107,6 +107,7 @@ ggplotly(p)
 ```{r}
 library(gganimate)
 library(transformr)
+library(gifski)
 theme_set(theme_bw())
 ```
 
@@ -122,6 +123,22 @@ p <- ggplot(data_time, aes(x = Date,  y = Confirmed, color = Country_Region)) +
       geom_point(aes(group = seq_along(Date))) +
       transition_reveal(Date) 
 # Some people needed to use this line instead
-# animate(p,renderer = gifski_renderer(), end_pause = 15)
+animate(p,renderer = gifski_renderer(), end_pause = 15)
 animate(p, end_pause = 15)
+```
+
+```{r}
+data_time <- time_series_long_joined %>% 
+    group_by(Country_Region,Date) %>% 
+    summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+    filter (Country_Region %in% c("China","Korea, South","Japan","Italy","US")) 
+p <- ggplot(data_time, aes(x = Date,  y = Confirmed, color = Country_Region)) + 
+      geom_point() +
+      geom_line() +
+      ggtitle("Confirmed COVID-19 Cases") +
+      geom_point(aes(group = seq_along(Date))) +
+      transition_reveal(Date) 
+# Some people needed to use this line instead
+animate(p,renderer = gifski_renderer(), end_pause = 15)
+anim_save("deaths_5_countries.gif", p)
 ```
