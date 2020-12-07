@@ -22,7 +22,7 @@ Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
 
 * [LAB7](LAB7.html)
 
-* [LAB8]()
+* [LAB8](LAB8.html)
 
 * [LAB9]()
 
