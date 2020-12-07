@@ -16,8 +16,24 @@ Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
 
 * [LAB5A]()
 
-* [LAB5B] ()
+* [LAB5B](LAB5B.html)
 
-* [LAB6] (LAB6.html)
+* [LAB6](LAB6.html)
+
+* [LAB7](LAB7.html)
+
+* [LAB8]()
+
+* [LAB9]()
+
+* [LAB9X](LAB9x.html)
+
+* [LAB10](LAB10.html)
+
+* [LAB11](LAB11.html)
+
+* [LAB11X](LAB11x.html)
+
+* [LAB12]()
 
 ## REFERENCES
