@@ -1,0 +1,264 @@
+---
+title: "LAB9"
+author: "Caroline Martin"
+date: "10/26/2020"
+output: html_document
+---
+
+```{r}
+library(stringr)
+library(tidyverse)
+```
+
+```{r}
+x <- c("apple", "banana", "pear")
+str_view(x, "an")
+```
+
+```{r}
+str_view(x, ".a.")
+```
+
+```{r}
+# To create the regular expression, we need \\
+dot <- "\\."
+
+# But the expression itself only contains one:
+writeLines(dot)
+```
+
+```{r}
+# This tells R to look for an explicit .
+x <- c("abc", "a.c", "bef")
+str_view(x, "a\\.c")
+```
+
+```{r}
+x <- "a\\b"
+writeLines(x)
+```
+
+```{r}
+str_view(x, "\\\\")
+```
+
+#14.3.1.1 Exercises
+```{r}
+# 1. "\" does not match \ because in order to match one \, there needs to be two
+# "\\" doesn't match \ because there needs to be a . included
+# "\\\" doesn't match \ because it's an odd number and also doesn't include a . 
+
+# 2. to match seq. "'\" I would match it with "'\\"
+# 3. 
+```
+
+#14.3.2 Anchors
+```{r}
+x <- c("apple", "banana", "pear")
+str_view(x, "^a")
+```
+
+```{r}
+str_view(x, "a$")
+```
+
+```{r}
+x <- c("apple pie", "apple", "apple cake")
+str_view(x, "apple")
+```
+
+```{r}
+str_view(x, "^apple$")
+```
+
+```{r}
+#How would you match the literal string "$^$"?
+x <- c("$$$", "$^$", "^$$")
+str_view(x, "$^$")
+```
+
+```{r}
+#Given the corpus of common words in stringr::words, create regular expressions that find all words that:
+
+d <- c("yellow", "anticlimax", "sit")
+```
+
+```{r}
+#Start with “y”.
+str_view(d, "^y")
+```
+
+```{r}
+#End with “x”
+str_view(d, "x$")
+```
+
+```{r}
+#Are exactly three letters long. (Don’t cheat by using str_length()!)
+str_view(d, "^...$")
+```
+
+```{r}
+#Have seven letters or more.
+str_view(d, "^.......")
+```
+
+#14.3.3 Character classes and alternatives
+```{r}
+# Look for a literal character that normally has special meaning in a regex
+x <- c("abc", "a.c", "a*c", "a c")
+str_view(x, "a[.]c", match = TRUE)
+```
+
+```{r}
+str_view(x, ".[*]c")
+```
+
+```{r}
+str_view(x, "a[ ]")
+```
+
+```{r}
+x <- c("grey", "gray")
+str_view(x, "gr(e|a)y")
+```
+
+#14.3.3.1 Exercises
+```{r}
+#Create regular expressions to find all words that:
+v <- c("axel", "deed", "endowed", "cycling", "brd")
+```
+
+```{r}
+#Start with a vowel.
+str_view(v, "^[a|e|i|o|u|y]", match = TRUE)
+```
+
+```{r}
+#That only contain consonants. (Hint: thinking about matching “not”-vowels.)
+str_view(v, "[aeiouy]", match = FALSE)
+```
+
+```{r}
+#End with ed, but not with eed.
+str_view(v, "(ed$)", match = TRUE)
+```
+```{r}
+#End with ing or ise.
+str_view(v, "(ing$|ise$)", match = TRUE)
+```
+
+#14.3.4 Repetition
+```{r}
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, "CC?")
+```
+
+```{r}
+str_view(x, "CC+")
+```
+
+```{r}
+str_view(x, 'C[LX]+')
+```
+
+```{r}
+str_view(x, "C{2}")
+```
+
+```{r}
+str_view(x, "C{2,}")
+```
+
+```{r}
+str_view(x, 'C{2,3}?')
+```
+
+```{r}
+str_view(x, 'C[LX]+?')
+```
+
+#14.3.5
+```{r}
+str_view(fruit, "(..)\\1", match = TRUE)
+```
+
+#14.3.5 Exercises
+```{r}
+str_view(fruit, "(.)(.)\\2\\1", match = TRUE)
+#
+```
+#14.4.1
+```{r}
+f <- c("apple", "banana", "pear")
+str_detect(f, "e")
+```
+
+```{r}
+sum(str_detect(words, "^t"))
+```
+
+```{r}
+mean(str_detect(words, "[aeiou]$"))
+```
+
+```{r}
+# Find all words containing at least one vowel, and negate
+no_vowels_1 <- !str_detect(words, "[aeiou]")
+```
+
+```{r}
+no_vowels_2 <- str_detect(words, "^[^aeiou]+$")
+identical(no_vowels_1, no_vowels_2)
+```
+
+```{r}
+words[str_detect(words, "x$")]
+```
+
+```{r}
+str_subset(words, "x$")
+```
+
+```{r}
+df <- tibble(
+  word = words, 
+  i = seq_along(word)
+)
+df %>% 
+  filter(str_detect(word, "x$"))
+```
+
+```{r}
+f <- c("apple", "banana", "pear")
+str_count(f, "a")
+```
+
+```{r}
+# On average, how many vowels per word?
+mean(str_count(words, "[aeiou]"))
+```
+
+```{r}
+df %>% 
+  mutate(
+    vowels = str_count(word, "[aeiou]"),
+    consonants = str_count(word, "[^aeiou]")
+  )
+```
+
+```{r}
+str_count("abababa", "aba")
+```
+
+```{r}
+str_view_all("abababa", "aba")
+```
+
+#14.4.1 Exercises
+```{r}
+sum(str_detect(words, "^x|x$"))
+```
+
+```{r}
+sum(str_detect(words, "^aeiou"))
