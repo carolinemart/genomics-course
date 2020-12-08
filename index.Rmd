@@ -34,6 +34,6 @@ Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
 
 * [LAB11X](LAB11x.html)
 
-* [LAB12]()
+* [LAB12](LAB12.html)
 
 ## REFERENCES
