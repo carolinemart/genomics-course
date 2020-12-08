@@ -322,7 +322,7 @@ time_series_long_joined_new_column <- time_series_long_joined %>%
 ##Exercise 6
 ```{r}
 time_series_long_joined%>% 
-  group_by(Country_Region, sum(Deaths), Date) %>% 
+  group_by(Country_Region, Date) %>% 
   summarise_at(c("Confirmed", "Deaths"), sum) %>% 
   filter (Country_Region == "US") %>% 
     ggplot(aes(x = Date,  y = Deaths)) + 
@@ -333,18 +333,63 @@ time_series_long_joined%>%
 
 ##Exercise 7
 ```{r}
-top10c <- time_series_long_joined %>%
-   group_by(Country_Region, sum(Deaths), Date) %>%
-   summarise(Confirmed = sum(Confirmed), Deaths = sum(Deaths), min_deaths = min(Deaths)) %>%
-   arrange(desc(min_deaths)) %>%
-   slice(1:10) %>% 
-    ggplot(data = top10c, mapping = aes_(x = Date,  y = Deaths, color = Country_Region)) + 
-    geom_point() +
-    geom_line() +
-    ggtitle("Top 10 Countries COVID-19 Deaths")
+Confirmed <- time_series_long_joined %>% arrange(desc(Confirmed)) %>% slice(1:10)
+time_series_long_joined %>% 
+  group_by(Country_Region, Date) %>% 
+  summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+  filter (Country_Region %in% c("Brazil", "UK", "Italy", "Spain", "Mexico", "France", "US", "Russia", "Germany", "China")) %>% 
+  ggplot(aes(x = Date, y = Deaths, color = Country_Region)) + 
+  geom_point() + 
+  geom_line() +
+  ggtitle("Top 10 Countries by COVID-19 Deaths")
 
 ```
 
 
 ##Exercise 8
 ```{r}
+time_series_long_joined %>% 
+  group_by(Country_Region, Date) %>% 
+  summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+  filter (Country_Region %in% c("Brazil", "UK", "Italy", "Spain", "Mexico", "France", "US", "Russia", "Germany", "China")) %>% 
+  ggplot(aes(x = Date, y = Deaths, color = Country_Region)) + 
+  geom_point() + 
+  geom_line() +
+  facet_wrap(~Country_Region, ncol=3, scales = "free_y")
+  ggtitle("Top 10 Countries by COVID-19 Deaths")
+```
+
+##Exercise 9
+```{r}
+time_series_US_confirmed <- read_csv(url("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv"))
+```
+
+```{r}
+time_series_US_confirmed_long <- time_series_US_confirmed %>%
+  group_by(Province_State) %>%
+  select(-c(UID,iso2, iso3, code3, FIPS, Admin2, Lat, Long_,Country_Region, Combined_Key)) %>%
+  pivot_longer(-c(Province_State)) %>%
+  group_by(Province_State, name) %>% 
+  summarise(value = sum(value))
+```
+
+```{r}
+time_series_US_confirmed_long %>%
+  group_by(Province_State) %>%
+  ggplot(aes(x = name,  y = value, color = Province_State)) + 
+    geom_point() + facet_wrap(~Province_State, ncol = 5) + labs(x = "Date", y = "Confirmed", title = "COVID-19 US Confirmed") 
+```
+
+##Exercise 10
+```{r}
+time_series_long_joined %>% 
+  group_by(Country_Region,Date) %>% 
+  summarise_at(c("Confirmed", "Deaths"), sum) %>% 
+  filter (Country_Region %in% c("China","France","Italy","Brazil", "India", "UK", "Peru", "Spain", "Iran", "Mexico", "US")) %>% 
+    ggplot(aes(x = Date,  y = Deaths)) + 
+    geom_point() +
+    geom_line() +
+    ggtitle("COVID-19 Top 10 Death Totals Dark") +
+    facet_wrap(~Country_Region, ncol=2, scales="free_y") +
+  theme_dark()
+```
