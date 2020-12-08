@@ -199,6 +199,6 @@ p
 library(tidyverse)
 library(ggtree)
 tree <- read.tree("Data/fastree_result.tre")
-tree
+ggtree(tree, layout='circular') + xlim(0,3) + geom_tiplab(hjust=-.1, size = 3) +   geom_hilight(node=34, fill="gold") + geom_hilight(node=29, fill="blue") 
 ```
 
