@@ -14,7 +14,7 @@ Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
 
 * [LAB4](LAB4.html)
 
-* [LAB5A]()
+* [LAB5A](LAB5A.html)
 
 * [LAB5B](LAB5B.html)
 
