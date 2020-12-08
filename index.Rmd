@@ -24,7 +24,7 @@ Application written in R [@RCoreTeam] using the Shiny framework [@Chang2015].
 
 * [LAB8](LAB8.html)
 
-* [LAB9]()
+* [LAB9](LAB9.html)
 
 * [LAB9X](LAB9x.html)
 
